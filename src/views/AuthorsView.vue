@@ -2,7 +2,6 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h1 class="text-3xl font-bold text-gray-900 mb-8">Library Authors</h1>
 
-    <!-- Sélecteur de nationalité -->
     <div class="mb-6">
       <label for="nationality" class="block text-sm font-medium text-gray-700">Filter by Nationality:</label>
       <select
@@ -45,18 +44,15 @@ import { storeToRefs } from 'pinia';
 const authorsStore = useAuthorStore();
 const { loading } = storeToRefs(authorsStore);
 
-// Liste des nationalités uniques
 const uniqueNationalities = computed(() => {
   const nationalities = authorsStore.authors.map(author => author.nationality);
   return [...new Set(nationalities)].sort();
 });
 
-// Fonction pour récupérer les auteurs avec filtre
 const fetchFilteredAuthors = () => {
   authorsStore.fetchAuthors(authorsStore.nationalityFilter || undefined);
 };
 
-// Récupération initiale des auteurs
 onMounted(() => {
   authorsStore.fetchAuthors();
 });

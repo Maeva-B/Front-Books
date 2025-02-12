@@ -26,9 +26,9 @@ export enum RoleEnum {
 
 export interface Adherent {
   id?: string;
-  firstName: string;
-  lastName: string;
-  membershipNumber: string;
+  first_name: string;
+  last_name: string;
+  membership_number: string;
   login: string;
   role: RoleEnum;
 }

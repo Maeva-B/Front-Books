@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue';
 import BooksView from '../views/BooksView.vue';
 import LoansView from '../views/LoansView.vue';
 import AuthorsView from '../views/AuthorsView.vue';
+import AdherentsView from '../views/AdherentView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,6 +34,12 @@ const router = createRouter({
       path: '/loans',
       name: 'loans',
       component: LoansView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/adhrents',
+      name: 'adherents',
+      component: AdherentsView,
       meta: { requiresAuth: true }
     }
   ]
