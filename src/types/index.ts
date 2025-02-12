@@ -6,17 +6,36 @@ export interface Author {
   nationality: string;
 }
 
+export enum BookTypeEnum {
+  DataScience = "datascience",
+  datascience = "datascience",
+  web = "web",
+  algebra = "algebra",
+  optimization = "optimization",
+  phylosophy = "phylosophy",
+  literary = "literary",
+  system = "system",
+  network = "network",
+  physic = "physic",
+  chemistry = "chemistry",
+  optic = "optic",
+  electronic = "electronic"
+}
+
 export interface Book {
   id?: string;
-  author: Author;
+  author_id: string;
   title: string;
   description?: string;
   location: string;
-  type: string;
-  publicationYear: number;
+  label: string;
+  type: BookTypeEnum;
+  publishDate: string;
+  publisher: string;
   language: string;
-  editor: string;
+  link: string;
 }
+
 
 export enum RoleEnum {
   PROFESSOR = "professor",
@@ -35,11 +54,14 @@ export interface Adherent {
 
 export interface Loan {
   id?: string;
-  bookId: string;
-  book: Book;
-  adherentId: string;
+  book_id: string;
+  adherent_id: string;
   loanDate: string;
   returnDate: string;
+}
+
+export interface EnrichedLoan extends Loan {
+  book?: Book | null;
 }
 
 export interface LoginRequest {
