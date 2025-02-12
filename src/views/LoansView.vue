@@ -14,7 +14,13 @@
                 {{ loan.book ? loan.book.title : 'Loading...' }}
               </p>
               <p class="text-sm text-gray-500">
-                by {{ loan.book ? loan.book.author_id : 'Loading...' }}
+                by 
+                <span v-if="loan.book && loan.book.author">
+                  {{ loan.book.author.first_name }} {{ loan.book.author.last_name }}
+                </span>
+                <span v-else>
+                  Loading...
+                </span>
               </p>
             </div>
             <div class="ml-4 flex-shrink-0">

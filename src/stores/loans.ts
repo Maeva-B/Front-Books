@@ -10,7 +10,14 @@ export const useLoanStore = defineStore('loans', () => {
   async function fetchBook(book_id: string) {
     try {
       const response = await axios.get(`/books/${book_id}`);
-      return response.data;
+      const book = response.data;
+      const authorResponse = await axios.get(`/authors/${book.author_id}`);
+      const author = authorResponse.data;
+      book.author = {
+        first_name: author.first_name,
+        last_name: author.last_name
+      };
+      return book;
     } catch (error) {
       console.error(`Failed to fetch book with id ${book_id}:`, error);
       return null;
