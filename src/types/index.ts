@@ -1,22 +1,53 @@
-export interface User {
-  id: number;
-  username: string;
-  token?: string;
+export interface Author {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  nationality: string;
 }
 
 export interface Book {
-  id: number;
+  id?: string;
+  author: Author;
   title: string;
-  author: string;
-  isbn: string;
-  available: boolean;
+  description?: string;
+  location: string;
+  type: string;
+  publicationYear: number;
+  language: string;
+  editor: string;
+}
+
+export enum RoleEnum {
+  PROFESSOR = "professor",
+  LIBRARIAN = "librarian",
+  STUDENT = "student",
+}
+
+export interface Adherent {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  membershipNumber: string;
+  login: string;
+  role: RoleEnum;
 }
 
 export interface Loan {
-  id: number;
-  bookId: number;
+  id?: string;
+  bookId: string;
   book: Book;
-  userId: number;
-  borrowDate: string;
-  dueDate: string;
+  adherentId: string;
+  loanDate: string;
+  returnDate: string;
+}
+
+export interface LoginRequest {
+  login: string;
+  password: string;
+}
+
+export interface Token {
+  accessToken: string;
+  tokenType: string;
 }

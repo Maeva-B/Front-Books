@@ -10,7 +10,7 @@ export const useBookStore = defineStore('books', () => {
   async function fetchBooks() {
     loading.value = true;
     try {
-      const response = await axios.get('/api/books');
+      const response = await axios.get('/books');
       books.value = response.data;
     } catch (error) {
       console.error('Failed to fetch books:', error);

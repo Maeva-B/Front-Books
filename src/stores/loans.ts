@@ -10,7 +10,7 @@ export const useLoanStore = defineStore('loans', () => {
   async function fetchLoans() {
     loading.value = true;
     try {
-      const response = await axios.get('/api/loans');
+      const response = await axios.get('/loans');
       loans.value = response.data;
     } catch (error) {
       console.error('Failed to fetch loans:', error);
