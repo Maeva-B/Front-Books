@@ -14,9 +14,7 @@
                 {{ loan.book ? loan.book.title : 'Loading...' }}
               </p>
               <p class="text-sm text-gray-500">
-                <!-- Si vous ne récupérez que l'id de l'auteur, vous pouvez l'afficher ainsi -->
                 by {{ loan.book ? loan.book.author_id : 'Loading...' }}
-                <!-- Ou, si vous récupérez un objet auteur complet, vous pourrez afficher son nom par exemple -->
               </p>
             </div>
             <div class="ml-4 flex-shrink-0">

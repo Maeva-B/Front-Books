@@ -11,16 +11,16 @@
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">{{ book.title }}</h3>
           <div class="mt-2 text-sm text-gray-500">
-            <p>Author: {{ book.author }}</p>
+            <p>Author: {{ book.author.first_name }} {{ book.author.last_name }}</p>
             <p>Description: {{ book.description }}</p>
-            <p>language: {{ book.language }}</p>
-            <p>Editor: {{ book.editor }}</p>
-            <p>Publication Year: {{ book.publicationYear }}</p>
-          </div>
+            <p>Language: {{ book.language }}</p>
+            <p>Editor: {{ book.publisher }}</p>
+            <p>Publication Year: {{ book.publishDate }}</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
