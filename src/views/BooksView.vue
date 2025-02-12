@@ -12,24 +12,15 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">{{ book.title }}</h3>
           <div class="mt-2 text-sm text-gray-500">
             <p>Author: {{ book.author }}</p>
-            <p>ISBN: {{ book.isbn }}</p>
+            <p>Description: {{ book.description }}</p>
+            <p>language: {{ book.language }}</p>
+            <p>Editor: {{ book.editor }}</p>
+            <p>Publication Year: {{ book.publicationYear }}</p>
           </div>
-          <div class="mt-4">
-            <span
-              :class="[
-                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                book.available
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
-              ]"
-            >
-              {{ book.available ? 'Available' : 'Borrowed' }}
-            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
