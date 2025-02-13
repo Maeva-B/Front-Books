@@ -1,5 +1,52 @@
-# Vue 3 + TypeScript + Vite
+# 📚 Library Management Frontend
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This project is a Vue.js web application designed to manage a library, including books and loans.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 🚀 Installation and Execution
+
+### 1️⃣ Prerequisites
+Make sure you have **Node.js** and **npm** installed on your machine:
+
+```bash
+node -v  # Check the Node.js version
+npm -v   # Check the npm version
+```
+
+If not, download and install them from the [Node.js Official Website](https://nodejs.org/).
+
+### 2️⃣ Install Dependencies
+After cloning the repository, navigate to the project directory and run:
+
+```bash
+npm install
+```
+
+This will install all the necessary dependencies for the application to function properly.
+
+### 3️⃣ Start the Project
+Run the application in development mode with the following command:
+
+```bash
+npm run dev
+```
+
+By default, the project will be accessible at:  
+👉 **http://localhost:5173/** (or another port depending on your configuration).
+
+## 📂 Project Structure
+
+```
+Library-frontend
+├── 📁 src
+│   ├── 📁 assets       # Global images and styles
+│   ├── 📁 components   # Reusable Vue components
+│   ├── 📁 router       # Application routes
+│   ├── 📁 stores       # State management using Pinia
+│   ├── 📁 types        # TypeScript types used in the application
+│   ├── 📁 views        # Main application pages
+│   ├── App.vue         # Root component
+│   ├── main.ts         # Main entry file that mounts the Vue app
+├── package.json        # npm dependencies and scripts
+├── vite.config.ts      # Vite.js configuration
+└── README.md           # Project documentation
+```
