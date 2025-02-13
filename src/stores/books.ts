@@ -20,15 +20,17 @@ export const useBookStore = defineStore('books', () => {
             const author = authorResponse.data;
             return {
               ...book,
+              id: String(book._id),
               author: {
                 first_name: author.first_name,
                 last_name: author.last_name
               }
             };
           } catch (error) {
-            console.error(`Erreur lors de la récupération de l'auteur pour le livre ${book.id}:`, error);
+            console.error(`Error retrieving author for book ${book._id}:`, error);
             return {
               ...book,
+              id: String(book._id),
               author: {
                 first_name: 'Unknown',
                 last_name: ''
@@ -43,7 +45,7 @@ export const useBookStore = defineStore('books', () => {
     } finally {
       loading.value = false;
     }
-  }
+  }  
 
   return {
     books,

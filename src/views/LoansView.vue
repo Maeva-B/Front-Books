@@ -23,10 +23,20 @@
                 </span>
               </p>
             </div>
-            <div class="ml-4 flex-shrink-0">
+            <div class="ml-4 flex-shrink-0 text-right">
               <p class="text-sm text-gray-500">
-                Due: {{ new Date(loan.loanDate).toLocaleDateString() }}
+                Due: {{ new Date(loan.returnDate).toLocaleDateString() }}
               </p>
+              <div class="mt-1">
+                <span v-if="isLoanActive(loan)" 
+                      class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">
+                  Active
+                </span>
+                <span v-else 
+                      class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
+                  Finished
+                </span>
+              </div>
             </div>
           </div>
         </li>
@@ -46,4 +56,11 @@ const { loans, loading } = storeToRefs(loanStore);
 onMounted(() => {
   loanStore.fetchLoans();
 });
+
+function isLoanActive(loan: any): boolean {
+  const now = new Date();
+  const start = new Date(loan.loanDate);
+  const end = new Date(loan.returnDate);
+  return now >= start && now <= end;
+}
 </script>
