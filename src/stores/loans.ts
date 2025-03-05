@@ -13,7 +13,7 @@ export const useLoanStore = defineStore('loans', () => {
     try {
       const response = await axios.get(`/books/${book_id}`);
       const book = response.data;
-  
+
       if (book.author_id) {
         try {
           const authorResponse = await axios.get(`/authors/${book.author_id}`);
@@ -27,14 +27,14 @@ export const useLoanStore = defineStore('loans', () => {
           book.author = { first_name: 'Unknown', last_name: '' };
         }
       }
-  
+
       return book;
     } catch (error) {
       console.error(`Failed to fetch book with id ${book_id}:`, error);
       return null;
     }
   }
-  
+
 
   async function fetchLoans(adherentId?: string) {
     loading.value = true;
@@ -74,10 +74,34 @@ export const useLoanStore = defineStore('loans', () => {
     }
   }
 
+  async function createLoan(bookId: string, adherentId: string, loanDate: string, returnDate: string | null) {
+    try {
+      loading.value = true;
+      error.value = null;
+
+      const response = await axios.post('/loans/', {
+        loanDate,
+        returnDate,
+        book_id: bookId,
+        adherent_id: adherentId
+      });
+
+      loans.value.push(response.data);
+    } catch (err: any) {
+      error.value = 'Erreur lors de l’ajout de l’emprunt.';
+      console.error('Failed to create loan:', err);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+
+
   return {
     loans,
     loading,
     error,
-    fetchLoans
+    fetchLoans,
+    createLoan
   };
 });
