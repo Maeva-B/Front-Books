@@ -7,28 +7,30 @@ export const useLoanStore = defineStore('loans', () => {
   const loans = ref<Loan[]>([]);
   const loading = ref(false);
 
+  const error = ref<string | null>(null);
+
   async function fetchBook(book_id: string) {
-    try {
-      const response = await axios.get(`/books/${book_id}`);
-      const book = response.data;
-      const authorResponse = await axios.get(`/authors/${book.author_id}`);
-      const author = authorResponse.data;
-      book.author = {
-        first_name: author.first_name,
-        last_name: author.last_name
-      };
-      return book;
-    } catch (error) {
-      console.error(`Failed to fetch book with id ${book_id}:`, error);
-      return null;
-    }
   }
 
-  async function fetchLoans() {
+  async function fetchLoans(adherentId?: string) {
     loading.value = true;
+    error.value = null;
+    loans.value = [];
+
     try {
-      const response = await axios.get('/loans');
+      const params: Record<string, string> = {};
+      if (adherentId) {
+        params.adherent_id = adherentId;
+      }
+
+      const response = await axios.get('/loans', { params });
       const loansData = response.data;
+
+      if (Array.isArray(loansData) && loansData.length === 0) {
+        error.value = 'Aucun emprunt trouvé pour cet utilisateur.';
+        return;
+      }
+
       const enrichedLoans = await Promise.all(
         loansData.map(async (loan: any) => {
           const book = await fetchBook(loan.book_id);
@@ -36,16 +38,22 @@ export const useLoanStore = defineStore('loans', () => {
         })
       );
       loans.value = enrichedLoans;
-    } catch (error) {
-      console.error('Failed to fetch loans:', error);
+    } catch (err: any) {
+      if (err.response && err.response.status === 404) {
+        error.value = 'Aucun emprunt trouvé (404).';
+      } else {
+        error.value = 'Erreur lors de la récupération des emprunts.';
+      }
+      console.error('Failed to fetch loans:', err);
     } finally {
       loading.value = false;
     }
   }
-  
+
   return {
     loans,
     loading,
+    error,
     fetchLoans
   };
 });

@@ -76,6 +76,7 @@ export const useAuthStore = defineStore('auth', () => {
     adherent,
     login,
     logout,
-    fetchAdherent
+    fetchAdherent,
+    getAdherentIdFromToken
   };
 });
