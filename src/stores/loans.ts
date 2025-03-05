@@ -58,7 +58,9 @@ export const useLoanStore = defineStore('loans', () => {
       const enrichedLoans = await Promise.all(
         loansData.map(async (loan: any) => {
           const book = await fetchBook(loan.book_id);
-          return { ...loan, book };
+          return { 
+            id: loan._id,
+            ...loan, book };
         })
       );
       loans.value = enrichedLoans;
@@ -95,13 +97,22 @@ export const useLoanStore = defineStore('loans', () => {
     }
   }
 
-
+  async function deleteLoan(loanId: string) {
+    try {
+      await axios.delete(`/loans/${loanId}`);
+      loans.value = loans.value.filter(loan => loan.id !== loanId);
+    } catch (err: any) {
+      console.error('Erreur lors de la suppression de l’emprunt:', err);
+    }
+  }
+  
 
   return {
     loans,
     loading,
     error,
     fetchLoans,
-    createLoan
+    createLoan,
+    deleteLoan
   };
 });
