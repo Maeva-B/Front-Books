@@ -19,4 +19,4 @@ RUN npm run build
 EXPOSE 5173
 
 # Command to start the Vue.js development server, binding to all network interfaces
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "preview", "--", "--port", "5173", "--host"]

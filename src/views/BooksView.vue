@@ -7,10 +7,10 @@
     </div>
 
     <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="book in books" :key="book.id" class="bg-white overflow-hidden shadow rounded-lg p-4">
+      <div v-for="book in books" :key="book._id" class="bg-white overflow-hidden shadow rounded-lg p-4">
         <h3 class="text-lg font-medium text-gray-900">{{ book.title }}</h3>
         <div class="mt-2">
-          <span v-if="isLoaned(book.id)" class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
+          <span v-if="isLoaned(book._id)" class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
             Loaned
           </span>
           <span v-else class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">
@@ -18,7 +18,7 @@
           </span>
         </div>
         <div class="mt-2 text-sm text-gray-500">
-          <p>Author : {{ book.author.first_name }} {{ book.author.last_name }}</p>
+          <p>Author: {{ getAuthor(book.author_id) }}</p>
           <p>Description : {{ book.description }}</p>
           <p>Language : {{ book.language }}</p>
           <p>Editor : {{ book.publisher }}</p>
@@ -30,13 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { onMounted } from 'vue';
 import { useBookStore } from '../stores/books';
 import { useLoanStore } from '../stores/loans';
+import { useAuthorStore } from '../stores/authors';
 import { storeToRefs } from 'pinia';
 
 const bookStore = useBookStore();
 const loanStore = useLoanStore();
+const authorStore = useAuthorStore();
 
 const { books, loading: loadingBooks } = storeToRefs(bookStore);
 const { loans, loading: loadingLoans } = storeToRefs(loanStore);
@@ -59,6 +61,13 @@ function isLoaned(bookId: string | undefined): boolean {
   });
 }
 
+
+function getAuthor(author_id: string): string {
+  if (!author_id) return "Unknown Author";
+
+  const author = authorStore.authors.find(author => author.id === author_id);
+  return author ? `${author.first_name} ${author.last_name}` : "Unknown Author";
+}
 
 
 

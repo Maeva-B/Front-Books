@@ -20,12 +20,12 @@
         <li v-for="loan in loanStore.loans" :key="loan.id" class="px-4 py-4 sm:px-6 flex justify-between items-center">
           <div class="flex-1 min-w-0">
             <p class="text-sm font-medium text-indigo-600 truncate">
-              {{ loan.book ? loan.book.title : 'Chargement...' }}
+              {{ getBook(loan.book_id)?.title || 'Chargement...' }}
             </p>
             <p class="text-sm text-gray-500">
               by
-              <span v-if="loan.book?.author">
-                {{ loan.book.author.first_name }} {{ loan.book.author.last_name }}
+              <span v-if="getBook(loan.book_id)">
+                {{ getBook(loan.book_id)?.title }} - {{ getAuthor(getBook(loan.book_id)?.author_id) }}
               </span>
               <span v-else>Loading...</span>
             </p>
@@ -45,7 +45,7 @@
           </div>
 
           <!-- Delete -->
-          <button @click="deleteLoan(loan.id)"
+          <button v-if="loan.id" @click="deleteLoan(loan.id)"
             class="ml-4 bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-2 rounded">
             🗑️
           </button>
@@ -59,10 +59,14 @@
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../stores/auth';
 import { useLoanStore } from '../stores/loans';
+import { useBookStore } from '../stores/books';
 import LoanModal from '../components/LoanModal.vue';
+import { useAuthorStore } from '../stores/authors';
 
 const authStore = useAuthStore();
 const loanStore = useLoanStore();
+const bookStore = useBookStore();
+const authorStore = useAuthorStore();
 const isModalOpen = ref(false);
 
 onMounted(() => {
@@ -74,12 +78,13 @@ onMounted(() => {
   loanStore.fetchLoans(adherentIdFromToken);
 });
 
-function isLoanActive(loan) {
+function isLoanActive(loan: { returnDate: string }): boolean {
   if (!loan.returnDate) return true;
   const now = new Date();
   const due = new Date(loan.returnDate);
   return due.getTime() > now.getTime();
 }
+
 
 async function deleteLoan(loanId: string) {
   console.log('Deleting loan', loanId);
@@ -87,5 +92,16 @@ async function deleteLoan(loanId: string) {
   if (confirm("Are you sure you want to cancel this loan?")) {
     await loanStore.deleteLoan(loanId);
   }
+}
+
+function getBook(book_id: string) {
+  return bookStore.books.find(b => b._id === book_id);
+}
+
+
+function getAuthor(author_id: string | undefined) {
+  if (!author_id) return "Unknown Author";
+  const author = authorStore.authors.find(a => a.id === author_id);
+  return author ? `${author.first_name} ${author.last_name}` : "Unknown Author";
 }
 </script>

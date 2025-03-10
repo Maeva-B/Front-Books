@@ -23,7 +23,7 @@ export enum BookTypeEnum {
 }
 
 export interface Book {
-  id?: string;
+  _id?: string;
   author_id: string;
   title: string;
   description?: string;
